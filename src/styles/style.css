@@ -1,0 +1,108 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 612px;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  height: 100%;
+}
+
+.root {
+  margin: 70px auto;
+  padding-bottom: 70px;
+  height: fit-content;
+}
+
+header {
+  background-color: #c3cfd9;
+  height: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #e8833a;
+  font-size: 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.homepage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.homepage span {
+  margin: 40px;
+  font-size: 30px;
+}
+.movie-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+  max-width: 612px;
+}
+.movie-list img {
+  height: 200px;
+}
+.movie-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.movie-container > p {
+  font-size: 30px;
+  margin: 50px 0 60px 0;
+}
+.movie-time {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.day {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.day span {
+  font-size: 24px;
+  margin-left: 20px;
+}
+.day > div {
+  display: flex;
+}
+.day div > p {
+  background-color: #e8833a;
+  margin: 20px;
+  font-size: 20px;
+  height: 50px;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  height: 120px;
+  width: 100%;
+  background-color: #dfe6ed;
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+}
+footer img {
+  height: 110px;
+  padding-left: 20px;
+  margin-right: 30px ;
+}
