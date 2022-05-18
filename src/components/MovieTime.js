@@ -25,11 +25,10 @@ export default function MovieTime() {
 
   return (
     <>
-    <div className="movie-container">
-      <p>Selecione o horário</p>
-      <div className="movie-time">
-        {movie.days.map((obj, i) => {
-          return (
+      <div className="movie-container">
+        <p>Selecione o horário</p>
+        <div className="movie-time">
+          {movie.days.map((obj, i) => (
             <div key={i} id={obj.id} className="day">
               <span>
                 {obj.weekday} - {obj.date}
@@ -39,16 +38,15 @@ export default function MovieTime() {
                 <p>{obj.showtimes[1].name}</p>
               </div>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
-    </div>
-    <footer>
+      <footer>
         <img src={movie.posterURL} alt="poster" />
         <div>
-            <span>{movie.title}</span>
+          <span>{movie.title}</span>
         </div>
-    </footer>
+      </footer>
     </>
   );
 }

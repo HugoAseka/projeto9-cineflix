@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function MovieList() {
   const [movieListArr, setMovieListArr] = useState([]);
@@ -20,7 +21,7 @@ export default function MovieList() {
       <div className="movie-list">
         {movieListArr.map((obj, index) => {
           return (
-            <img key={index} id={obj.id} src={obj.posterURL} alt="filme" />
+            <Link key={index} id={obj.id} to={`/filme/${obj.id}`}  ><img   src={obj.posterURL} alt="filme" /></Link>
           );
         })}
       </div>
