@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function MovieList() {
@@ -13,8 +12,8 @@ export default function MovieList() {
       setMovieListArr([...response.data]);
     });
   }, []);
-  let x = useParams();
-  console.log(x);
+  
+
   return (
     <div className="homepage">
       <span>Selecione o filme</span>
