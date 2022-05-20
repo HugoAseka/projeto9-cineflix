@@ -1,60 +1,118 @@
 import Header from "./Header";
 import styled from "styled-components";
-import { get } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-export default function MovieSeats() {
+import { useParams, useNavigate } from "react-router-dom";
+
+export default function MovieSeats({
+  setName,
+  setCPF,
+  data,
+  movieObj,
+  setMovieObj,
+}) {
   const [allSeats, setAllSeats] = useState([]);
-  const [movieObj, setMovieObj] = useState({});
   const { sessionID } = useParams();
+  const [selected, setSelected] = useState([]);
+
+  function changeSelection(index, isAvailable) {
+    if (isAvailable) {
+      selected[index] = !selected[index];
+      setSelected([...selected]);
+    }
+  }
 
   useEffect(() => {
-    const seatPromise = get(
+    const seatPromise = axios.get(
       `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sessionID}/seats`
     );
 
+    for (let i = 0; i < 50; i++) {
+      selected[i] = false;
+    }
     seatPromise.then((response) => {
       setAllSeats([...response.data.seats]);
       setMovieObj({ ...response.data });
     });
   }, [sessionID]);
+  let navigate = useNavigate();
+  function PostAPI(event) {
+    event.preventDefault();
+
+    data.ids = [];
+    for (let i = 0; i < selected.length; i++) {
+      if (selected[i]) {
+        data.ids.push(allSeats[i].id);
+      }
+    }
+    console.log(data);
+
+    const request = axios.post(
+      "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many",
+      data
+    );
+    request.then((response) => {
+      console.log(response);
+    });
+    request.catch((error) => {
+      console.log(error);
+    });
+    navigate("/sucesso");
+  }
 
   return (
     <Container>
       <Header />
       <p>Selecione o assento</p>
-      <Seats>
-        {allSeats.map((item, index) => {
-          return (
-            <Seat state={item.isAvailable} key={index}>
-              {index + 1}
-            </Seat>
-          );
-        })}
-      </Seats>
-      <Subtitles>
-        <div>
-          <h6> </h6>
-          <p>Selecionado</p>
-        </div>
-        <div>
-          <h6> </h6>
-          <p>Disponível</p>
-        </div>
-        <div>
-          <h6> </h6>
-          <p>Indisponível</p>
-        </div>
-      </Subtitles>
-      <InputContainer>
-        <span>Nome do comprador:</span>
-        <input type="text" placeholder="Digite seu nome" />
-      </InputContainer>
-      <InputContainer>
-        <span>CPF do comprador:</span>
-        <input type="text" placeholder="Digite seu CPF.." />
-      </InputContainer>
-      <Button>Reservar Assento(s)</Button>
+      <form onSubmit={PostAPI}>
+        <Seats>
+          {allSeats.map((item, index) => {
+            return (
+              <Seat
+                state={item.isAvailable}
+                selected={selected[index]}
+                key={index}
+                onClick={() => changeSelection(index, item.isAvailable)}
+              >
+                {index + 1}
+              </Seat>
+            );
+          })}
+        </Seats>
+        <Subtitles>
+          <div>
+            <h6> </h6>
+            <p>Selecionado</p>
+          </div>
+          <div>
+            <h6> </h6>
+            <p>Disponível</p>
+          </div>
+          <div>
+            <h6> </h6>
+            <p>Indisponível</p>
+          </div>
+        </Subtitles>
+
+        <InputContainer>
+          <span>Nome do comprador:</span>
+          <input
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            placeholder="Digite seu nome"
+          />
+        </InputContainer>
+        <InputContainer>
+          <span>CPF do comprador:</span>
+          <input
+            onChange={(e) => setCPF(e.target.value)}
+            type="text"
+            placeholder="Digite seu CPF.."
+          />
+        </InputContainer>
+
+        <Button type="submit">Reservar Assento(s)</Button>
+      </form>
       <Footer>
         {Object.keys(movieObj).length === 0 ? (
           "carregando"
@@ -84,6 +142,13 @@ const Container = styled.div`
     font-size: 30px;
     margin: 40px 0 20px 0;
   }
+
+  > form {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Seats = styled.div`
@@ -98,7 +163,8 @@ const Seats = styled.div`
 
 const Seat = styled.span`
   width: 30px;
-  background-color: ${({state} )=> ( state ? "#C3CFD9" : "#FBE192")};
+  background-color: ${({ state, selected }) =>
+    !state ? "#FBE192" : selected ? "#8DD7CF" : "#C3CFD9"};
   height: 30px;
   text-align: center;
   border-radius: 100px;
@@ -163,7 +229,7 @@ const InputContainer = styled.div`
   }
 `;
 
-const Button = styled.div`
+const Button = styled.button`
   background-color: #e8833a;
   margin: 60px 20px 100px 20px;
   font-size: 20px;
