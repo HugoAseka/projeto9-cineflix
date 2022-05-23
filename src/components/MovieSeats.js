@@ -14,11 +14,14 @@ export default function MovieSeats({
   const [allSeats, setAllSeats] = useState([]);
   const { sessionID } = useParams();
   const [selected, setSelected] = useState([]);
+  const navigate = useNavigate();
 
   function changeSelection(index, isAvailable) {
     if (isAvailable) {
       selected[index] = !selected[index];
       setSelected([...selected]);
+    } else {
+      alert("Esse assento não está disponível");
     }
   }
 
@@ -35,7 +38,7 @@ export default function MovieSeats({
       setMovieObj({ ...response.data });
     });
   }, [sessionID]);
-  let navigate = useNavigate();
+
   function PostAPI(event) {
     event.preventDefault();
 
