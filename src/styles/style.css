@@ -30,22 +30,7 @@ body {
   height: fit-content;
 }
 
-header {
-  background-color: #c3cfd9;
-  height: 70px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 30px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-header h1 {
-  color: #e8833a;
-}
+
 .homepage {
   display: flex;
   justify-content: center;
